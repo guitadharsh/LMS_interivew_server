@@ -6,3 +6,5 @@ const courseRouter = Router()
 
 courseRouter.route('/create-course/:createdBy', upload.single('thumbnail'), createCourse)
 courseRouter.route('/get-all-course/:userId', getAllCourses)
+
+export { courseRouter }

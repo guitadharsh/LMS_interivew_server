@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
-import { app } from './app';
+import { app } from './app.js'
 import http from 'http'
-import connectMongoDb from './src/config/mongodb.js';
+import connectMongoDb from './src/config/mongodb.js'
 
 dotenv.config({
     path: './.env'

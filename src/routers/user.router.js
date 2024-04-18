@@ -4,3 +4,5 @@ import { getAllUsers } from '../controllers/user.controller.js'
 const userRouter = Router()
 
 userRouter.route('/get-all-users', getAllUsers)
+
+export { userRouter }

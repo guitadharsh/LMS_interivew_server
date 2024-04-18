@@ -1,8 +1,8 @@
 import express from 'express'
 import cors from 'cors'
-import userRouter from './routers/user.router.js'
-import courseRouter from './routers/course.router.js'
-import orderRouter from './routers/order.router.js'
+import { userRouter } from './src/routers/user.router.js'
+import { courseRouter } from './src/routers/course.router.js'
+import { orderRouter } from './src/routers/order.router.js'
 
 const app = express()
 
