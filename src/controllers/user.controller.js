@@ -2,7 +2,7 @@ import { User } from '../models/user.model.js'
 
 // @desc get all users
 // route GET /api/v1/users/get-all-users
-const getAllUsers = async () => {
+const getAllUsers = async (req, res) => {
     try {
         const users = await User.find()
         if (users.length > 0) {
