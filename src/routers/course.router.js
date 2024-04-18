@@ -4,7 +4,7 @@ import { upload } from '../middleware/multer.middleware.js'
 
 const courseRouter = Router()
 
-courseRouter.route('/create-course/:createdBy', upload.single('thumbnail'), createCourse)
-courseRouter.route('/get-all-course/:userId', getAllCourses)
+courseRouter.post('/create-course/:createdBy', upload.single('thumbnail'), createCourse)
+courseRouter.get('/get-all-course/:userId', getAllCourses)
 
 export { courseRouter }
