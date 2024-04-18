@@ -5,7 +5,7 @@ import { Course } from '../models/course.model.js'
 const createCourse = async (req, res) => {
     try {
         const { createdBy } = req.params;
-        const { title, description, duration, topics, tags, videoLink } = req.body;
+        const { title, description, duration, videoLink, price } = req.body;
         const { thumbnail } = req.file.filename;
 
         const newCourse = new Course({
@@ -13,10 +13,10 @@ const createCourse = async (req, res) => {
             title,
             description,
             duration,
-            topics,
-            tags,
+            price,
             thumbnail,
-            videoLink
+            videoLink,
+            createdBy
         })
 
         const savedCourse = await newCourse.save();
@@ -27,10 +27,34 @@ const createCourse = async (req, res) => {
     }
 }
 
-// @desc get all courses
+// @desc get all courses (except own courses)
 // route GET /api/v1/users/get-all-users
-const getAllCourse = () => {
+const getAllCourses = async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const { page = 1, limit = 10 } = req.query;
 
-}
+        //skip
+        const skip = (page - 1) * limit;
 
-export { createCourse, getAllCourse } 
+        const courses = await Course.find({ createdBy: { $ne: userId } }, { timestamps: 0 })
+            .populate({
+                path: 'createdBy',
+                model: 'User',
+            })
+            .limit(parseInt(limit))
+            .skip(skip);
+
+        if (courses.length > 0) {
+            res.json({ status: 200, message: 'Courses retrieved successfully', data: courses });
+        } else {
+            res.json({ status: 200, message: 'No courses found', data: [] });
+        }
+    } catch (err) {
+        console.error('Error in getAllCourses:', err);
+        res.status(500).json({ status: 500, message: 'Internal Server Error' });
+    }
+};
+
+
+export { createCourse, getAllCourses } 
