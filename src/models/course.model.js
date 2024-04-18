@@ -21,7 +21,16 @@ const courseSchema = new Schema({
     price: {
         type: Number,
         required: [true, 'price is required']
+    },
+    createdBy: {
+        type: String,
+        required: [true, 'createdBy is required']
     }
+    // createdBy: {
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'User',
+    //     required: [true, 'createdBy is required']
+    // }
 }, { timestamps: true }
 )
 
