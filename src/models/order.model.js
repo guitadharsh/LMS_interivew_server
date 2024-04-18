@@ -1,19 +1,24 @@
 import mongoose, { Schema } from "mongoose";
 
 const orderSchema = new Schema({
-    courseid: [{
+    orderBy: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: [true, 'createdBy is required']
+    },
+    courseId: [{
         type: Schema.Types.ObjectId,
         ref: 'Course',
         required: [true, 'courseId is required']
     }],
-    grandtotal: {
+    grandTotal: {
         type: Number,
         required: [true, 'price is required']
     },
     isPaymentSuccesfull: {
         type: Boolean,
     },
-    paymentmode: {
+    paymentMode: {
         type: String,
     }
 },
