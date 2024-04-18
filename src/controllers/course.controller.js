@@ -23,7 +23,7 @@ const createCourse = async (req, res) => {
         res.json({ status: 200, message: 'Course created successfully', data: savedCourse })
     }
     catch (err) {
-        res.json({ status: 500, message: 'Internal Server Error' })
+        res.json({status: 500, message: err.message || "Some error occurred while saving course."})
     }
 }
 
@@ -51,8 +51,7 @@ const getAllCourses = async (req, res) => {
             res.json({ status: 200, message: 'No courses found', data: [] });
         }
     } catch (err) {
-        console.error('Error in getAllCourses:', err);
-        res.status(500).json({ status: 500, message: 'Internal Server Error' });
+        res.json({status: 500, message: err.message || "Some error occurred while retriving course."})
     }
 };
 
