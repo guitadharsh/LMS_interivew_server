@@ -5,8 +5,9 @@ import { Course } from '../models/course.model.js'
 const createCourse = async (req, res) => {
     try {
         const { createdBy } = req.params;
-        const { title, description, duration, videoLink, price } = req.body;
-        const { thumbnail } = req.file.filename;
+        const { title, description, duration, videoLink, price } = req.body.payload;
+        // Check if req.file exists
+        const filename = req.file ? req.file.filename : undefined;
 
         const newCourse = new Course({
             createdBy,
@@ -14,7 +15,7 @@ const createCourse = async (req, res) => {
             description,
             duration,
             price,
-            thumbnail,
+            thumbnail: filename,
             videoLink,
             createdBy
         })
@@ -23,27 +24,22 @@ const createCourse = async (req, res) => {
         res.json({ status: 200, message: 'Course created successfully', data: savedCourse })
     }
     catch (err) {
-        res.json({status: 500, message: err.message || "Some error occurred while saving course."})
+        res.json({ status: 500, message: err.message || "Some error occurred while saving course." })
     }
 }
+
 
 // @desc get all courses (except own courses)
 // route GET /api/v1/users/get-all-users
 const getAllCourses = async (req, res) => {
     try {
         const { userId } = req.params;
-        const { page = 1, limit = 10 } = req.query;
-
-        //skip
-        const skip = (page - 1) * limit;
-
-        const courses = await Course.find({ createdBy: { $ne: userId } }, { timestamps: 0 })
+        const courses = await Course.find({ createdBy: { $ne: userId } })
+            .select('-createdAt -updatedAt') // Exclude createdAt and updatedAt
             .populate({
                 path: 'createdBy',
                 model: 'User',
-            })
-            .limit(parseInt(limit))
-            .skip(skip);
+            });
 
         if (courses.length > 0) {
             res.json({ status: 200, message: 'Courses retrieved successfully', data: courses });
@@ -51,9 +47,10 @@ const getAllCourses = async (req, res) => {
             res.json({ status: 200, message: 'No courses found', data: [] });
         }
     } catch (err) {
-        res.json({status: 500, message: err.message || "Some error occurred while retriving course."})
+        res.json({ status: 500, message: err.message || "Some error occurred while retrieving course." })
     }
 };
+
 
 
 export { createCourse, getAllCourses } 
