@@ -75,6 +75,25 @@ const getAllCourses = async (req, res) => {
     }
 };
 
+// @desc get user's own courses
+// route GET /api/v1/users/get-own-courses/:userId
+const getOwnCourses = async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const courses = await Course.find({ createdBy: userId })
+            .select('-createdAt -updatedAt -createdBy')
+
+        if (courses.length > 0) {
+            res.json({ status: 200, message: 'User\'s courses retrieved successfully', data: courses });
+        } else {
+            res.json({ status: 200, message: 'No courses found for this user', data: [] });
+        }
+    } catch (err) {
+        res.json({ status: 500, message: err.message || "Some error occurred while retrieving user's courses." })
+    }
+};
 
 
-export { createCourse, updateCourse, getAllCourses } 
+
+
+export { createCourse, updateCourse, getAllCourses, getOwnCourses } 
