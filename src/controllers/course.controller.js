@@ -5,9 +5,7 @@ import { Course } from '../models/course.model.js'
 const createCourse = async (req, res) => {
     try {
         const { createdBy } = req.params;
-        const { title, description, duration, videoLink, price } = req.body.payload;
-        // Check if req.file exists
-        const filename = req.file ? req.file.filename : undefined;
+        const { title, description, duration, videoLink, price, thumbnail } = req.body.payload;
 
         const newCourse = new Course({
             createdBy,
@@ -15,7 +13,7 @@ const createCourse = async (req, res) => {
             description,
             duration,
             price,
-            thumbnail: filename,
+            thumbnail,
             videoLink,
             createdBy
         })

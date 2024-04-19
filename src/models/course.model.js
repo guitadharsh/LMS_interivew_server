@@ -14,6 +14,7 @@ const courseSchema = new Schema({
     },
     thumbnail: {
         type: String,
+        required: [true, 'duration is required']
     },
     videoLink: {
         type: String
