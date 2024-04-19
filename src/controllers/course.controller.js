@@ -26,6 +26,32 @@ const createCourse = async (req, res) => {
     }
 }
 
+// @desc update course by id
+// route PUT /api/v1/course/update-course/:courseId
+const updateCourse = async (req, res) => {
+    try {
+        const { courseId } = req.params;
+        const { title, description, duration, videoLink, price, thumbnail } = req.body;
+
+        const updatedCourse = await Course.findByIdAndUpdate(courseId, {
+            title,
+            description,
+            duration,
+            videoLink,
+            price,
+            thumbnail
+        }, { new: true });
+
+        if (!updatedCourse) {
+            return res.status(404).json({ status: 404, message: 'Course not found' });
+        }
+
+        res.status(200).json({ status: 200, message: 'Course updated successfully', data: updatedCourse });
+    } catch (err) {
+        res.status(500).json({ status: 500, message: err.message || "Some error occurred while updating course." })
+    }
+}
+
 
 // @desc get all courses (except own courses)
 // route GET /api/v1/users/get-all-users
@@ -51,4 +77,4 @@ const getAllCourses = async (req, res) => {
 
 
 
-export { createCourse, getAllCourses } 
+export { createCourse, updateCourse, getAllCourses } 
