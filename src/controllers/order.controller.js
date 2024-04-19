@@ -6,7 +6,7 @@ const newOrder = async (req, res) => {
     try {
         const { orderBy, courseIds, grandTotal, isPaymentSuccesfull, paymentMode } = req.body;
 
-        const order = await Order.create({
+        const order = Order.create({
             orderBy,
             courseId: courseIds,
             grandTotal,
@@ -14,7 +14,8 @@ const newOrder = async (req, res) => {
             paymentMode
         });
 
-        res.status(201).json({ status: 201, message: 'Order created successfully', data: order });
+        const savedOrder = await order.save();
+        res.status(201).json({ status: 201, message: 'Order created successfully', data: savedOrder });
     }
     catch (err) {
         res.json({ status: 500, message: err.message || "Some error occurred while saving orders." })

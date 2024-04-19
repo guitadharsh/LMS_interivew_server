@@ -4,7 +4,7 @@ const orderSchema = new Schema({
     orderBy: {
         type: Schema.Types.ObjectId,
         ref: 'User',
-        required: [true, 'createdBy is required']
+        required: [true, 'orderBy is required']
     },
     courseId: [{
         type: Schema.Types.ObjectId,

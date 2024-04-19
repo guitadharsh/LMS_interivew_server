@@ -5,7 +5,7 @@ import { Course } from '../models/course.model.js'
 const createCourse = async (req, res) => {
     try {
         const { createdBy } = req.params;
-        const { title, description, duration, videoLink, price, thumbnail } = req.body.payload;
+        const { title, description, duration, videoLink, price, thumbnail } = req.body;
 
         const newCourse = new Course({
             createdBy,
